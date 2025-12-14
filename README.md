@@ -1,119 +1,119 @@
-# Instagram Mini Clone 📸
+Instagram Mini Clone 📸
+Project Overview
 
-![React](https://img.shields.io/badge/React-17-blue)
-![Node.js](https://img.shields.io/badge/Node.js-18-green)
-![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-brightgreen)
+This is a full-stack, single-page application (SPA) built to replicate the core functionalities of Instagram, focusing on user authentication, post interactions (likes/comments), and a personalized feed based on user following.
 
-A full-stack, single-page application (SPA) replicating Instagram's core functionalities: user authentication, post interactions, social graph, and personalized feed. Built to demonstrate API design, database modeling, and front-end state management.
+The project demonstrates proficiency in API design, database modeling, and front-end state management in a secure and scalable manner.
 
----
+Task: Instagram Mini Clone
 
-## Table of Contents
+✨ Features Implemented
+Category	Feature
+User Authentication	Secure signup, login, password hashing, and JWT token authentication for all protected routes
+Social Graph	Users can follow and unfollow other users
+Post Creation	Authenticated users can create posts with an image URL and a caption
+Post Interactions	Users can like/unlike posts and comment on posts
+Feed Generation	Home Feed displays posts created by users whom the logged-in user follows
+🛠️ Tech Stack
 
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Prerequisites](#prerequisites)
-- [Project Setup](#project-setup)
-- [Backend Setup](#backend-setup-backend)
-- [Frontend Setup](#frontend-setup-frontend)
-- [Security and Access Control](#security-and-access-control)
-- [Running the Application](#running-the-application)
+Backend
 
----
+Runtime: Node.js
 
-## Features
+Framework: Express
 
-- **User Authentication:** Secure signup, login, and JWT token authentication for all protected routes.  
-- **Post Interactions:** Users can create posts with images and captions, like/unlike posts, and comment.  
-- **Social Graph:** Follow/unfollow system implemented.  
-- **Feed Generation:** Home Feed displays posts only from users the logged-in user follows.  
-- **UI/UX:** Dynamic data rendering and UI updates without page refresh.
+Database: MongoDB (via Mongoose ODM)
 
----
+Authentication: JWT (JSON Web Tokens), bcrypt.js (Password Hashing)
 
-## Tech Stack
+File Uploads: Multer (for handling image files)
 
-**Backend**  
-- Node.js, Express  
-- MongoDB (via Mongoose)  
-- JWT Authentication & bcrypt.js for password hashing  
-- Multer for image uploads  
+Frontend
 
-**Frontend**  
-- React with Vite  
-- React Router DOM (Protected & Guest routes)  
-- Axios for API requests  
+Framework: React
 
----
+Tooling: Vite
 
-## Prerequisites
+Routing: React Router DOM
 
-- Node.js v18+  
-- MongoDB (local or Atlas)  
-- Git  
+API Calls: Axios
 
----
+⚙️ Prerequisites
 
-## Project Setup
+Before running the project, ensure you have the following installed:
 
-Clone the repository:
+Node.js (v18+)
 
-bash
+MongoDB (running locally or via MongoDB Atlas)
+
+Git
+
+🚀 Project Setup and Installation
+1. Clone the Repository
 git clone <YOUR_REPOSITORY_URL>
 cd instagram-mini-clone
-Backend Setup (/backend)
-bash
-Copy code
+
+2. Backend Setup (/backend)
+
+Navigate to the backend folder and install dependencies:
+
 cd backend
 npm install
-Create a .env file in /backend with your MongoDB URI and JWT secret:
 
-env
-Copy code
+A. Configuration (Database & Secrets)
+
+Create a .env file in /backend and add your MongoDB connection string and JWT secret:
+
 MONGO_URI="mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<dbname>?retryWrites=true&w=majority"
 JWT_SECRET="your_strong_secret_key"
 BASE_URL="http://localhost:5000"
-Create required folders for uploads and assets:
 
-bash
-Copy code
+B. Database Setup
+
+The app uses MongoDB and automatically creates collections (users, posts, etc.) upon first request.
+Make sure your MongoDB instance is running and MONGO_URI points to a valid database.
+
+C. Create Necessary Folders
+
+Create folders for file persistence:
+
 mkdir uploads
 mkdir assets
-Place default-user.png in /backend/assets/.
-
-Start the backend server:
 
 
+Place the default profile picture (default-user.png) inside /backend/assets/.
 
-bash
-Copy code
+D. Start Backend Server
 npm start
 # or
 npm run dev
-The server runs at http://localhost:5000
 
-Frontend Setup (/frontend)
-bash
-Copy code
+
+The backend server will run at http://localhost:5000
+.
+
+3. Frontend Setup (/frontend)
+
+Navigate to the frontend folder and install dependencies:
+
 cd ../frontend
 npm install
+
+A. Start Frontend Server
 npm run dev
-The app launches at http://localhost:5173
 
-Security and Access Control
-Protected Routes: Home, Profile, Post Detail, and Create Post pages require authentication.
 
-Unauthorized Access: Users without a token are redirected to /login.
+The frontend will launch in your browser, usually at http://localhost:5173
+.
 
-Login & Signup: Secure token storage with automatic redirect on success.
+💻 Running the Application
 
-Running the Application
-Visit http://localhost:5173
+Open the frontend in your browser: http://localhost:5173
 
-Sign up a new user
+Sign Up: Create a new account on the /signup page
 
-Log in with credentials
+Login: Log in with your credentials; you will be redirected to the Home Feed
 
-Create posts using the Create Post form
+Create Content: Upload an image and add a caption using the Create Post form
 
-Like, comment, and interact with posts to see dynamic UI updates
+Test Interaction: Like and comment on posts to see dynamic UI updates
