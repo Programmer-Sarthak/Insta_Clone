@@ -34,7 +34,16 @@ function Profile() {
       await axios.put(`http://localhost:5000/api/users/${action}/${id}`, {}, {
         headers: { 'x-auth-token': token }
       });
-      window.location.reload();
+      
+      // Update local state logic
+      let updatedFollowers = [...user.followers];
+      if (action === 'follow') {
+        updatedFollowers.push(currentUserId);
+      } else {
+        updatedFollowers = updatedFollowers.filter(uid => uid !== currentUserId);
+      }
+      setUser({ ...user, followers: updatedFollowers });
+
     } catch (err) {
       console.error(err);
     }
@@ -43,23 +52,23 @@ function Profile() {
   if (!user) return <div>Loading...</div>;
 
   return (
-    <div style={{ maxWidth: '600px', margin: 'auto', padding: '20px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-        <h2 style={{ flexGrow: 1 }}>{user.username}</h2>
+    <div className="profile-container">
+      <div className="profile-header">
+        <h2>{user.username}</h2>
         {id !== currentUserId && (
-          <button onClick={handleFollow}>
+          <button onClick={handleFollow} className={user.followers.includes(currentUserId) ? 'unfollow-btn' : 'follow-btn'}>
             {user.followers.includes(currentUserId) ? 'Unfollow' : 'Follow'}
           </button>
         )}
       </div>
-      <div style={{ display: 'flex', justifyContent: 'space-around', marginBottom: '20px' }}>
-        <span>{posts.length} Posts</span>
-        <span>{user.followers.length} Followers</span>
-        <span>{user.following.length} Following</span>
+      <div className="stats">
+        <span><b>{posts.length}</b> Posts</span>
+        <span><b>{user.followers.length}</b> Followers</span>
+        <span><b>{user.following.length}</b> Following</span>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '10px' }}>
+      <div className="grid-gallery">
         {posts.map(post => (
-          <img key={post._id} src={post.image} alt="post" style={{ width: '100%', height: '150px', objectFit: 'cover' }} />
+          <img key={post._id} src={post.image} alt="post" />
         ))}
       </div>
     </div>

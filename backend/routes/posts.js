@@ -73,6 +73,17 @@ router.get('/user/:id', auth, async (req, res) => {
   }
 });
 
-
+router.get('/:id', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id)
+      .populate('user', ['username'])
+      .populate('comments.user', ['username']);
+    if (!post) return res.status(404).json({ msg: 'Post not found' });
+    res.json(post);
+  } catch (err) {
+    if (err.kind === 'ObjectId') return res.status(404).json({ msg: 'Post not found' });
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;

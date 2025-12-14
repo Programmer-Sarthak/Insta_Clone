@@ -24,27 +24,39 @@ function Home() {
 
   const handleLike = async (postId) => {
     try {
-      await axios.put(`http://localhost:5000/api/posts/like/${postId}`, {}, {
+      const res = await axios.put(`http://localhost:5000/api/posts/like/${postId}`, {}, {
         headers: { 'x-auth-token': token }
       });
-      window.location.reload(); 
+      // Update state locally without reload
+      setPosts(posts.map(post => 
+        post._id === postId ? { ...post, likes: res.data } : post
+      ));
     } catch (err) {
       console.error(err);
     }
   };
 
-  if (!token) return <p style={{textAlign: 'center', marginTop: '20px'}}>Please Login to see posts</p>;
+  if (!token) return <p className="center-text">Please Login to see posts</p>;
 
   return (
-    <div style={{ maxWidth: '500px', margin: 'auto' }}>
+    <div className="feed-container">
       {posts.map(post => (
-        <div key={post._id} style={{ border: '1px solid #ddd', margin: '20px 0', padding: '10px' }}>
-          <h4><Link to={`/profile/${post.user._id}`}>{post.user.username}</Link></h4>
-          <img src={post.image} alt="post" style={{ width: '100%' }} />
-          <div style={{ marginTop: '10px' }}>
-            <button onClick={() => handleLike(post._id)}>
-              {post.likes.includes(userId) ? 'Unlike' : 'Like'} ({post.likes.length})
+        <div key={post._id} className="post-card">
+          <div className="post-header">
+            <h4><Link to={`/profile/${post.user._id}`}>{post.user.username}</Link></h4>
+          </div>
+          <Link to={`/post/${post._id}`}>
+            <img src={post.image} alt="post" className="post-image" />
+          </Link>
+          <div className="post-actions">
+            <button onClick={() => handleLike(post._id)} className={post.likes.includes(userId) ? 'liked' : ''}>
+              {post.likes.includes(userId) ? '❤️' : '🤍'} {post.likes.length}
             </button>
+            <Link to={`/post/${post._id}`} className="comment-link">
+              💬 View Comments ({post.comments.length})
+            </Link>
+          </div>
+          <div className="post-caption">
             <p><b>{post.user.username}</b> {post.caption}</p>
           </div>
         </div>
